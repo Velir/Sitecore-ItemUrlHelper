@@ -3,19 +3,36 @@
     <metadata>
       <PackageName>Sitecore-ItemUrlHelper</PackageName>
       <Author>Tim Braga</Author>
-      <Version>1.2</Version>
+      <Version />
       <Revision />
       <License />
       <Comment />
       <Attributes />
       <Readme />
-      <Publisher>Velir</Publisher>
+      <Publisher />
       <PostStep />
       <PackageID />
     </metadata>
   </Metadata>
   <SaveProject>True</SaveProject>
   <Sources>
+    <xfiles>
+      <Entries>
+        <x-item>/App_Config/Include/ItemUrlHelper.config</x-item>
+        <x-item>/bin/Sitecore.SharedSource.Commons.dll</x-item>
+        <x-item>/bin/Sitecore.SharedSource.Contextualizer.dll</x-item>
+        <x-item>/bin/Sitecore.SharedSource.ItemUrlHelper.dll</x-item>
+      </Entries>
+      <Converter>
+        <FileToEntryConverter>
+          <Root>/</Root>
+          <Transforms />
+        </FileToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>Files</Name>
+    </xfiles>
     <xitems>
       <Entries>
         <x-item>/core/sitecore/content/Applications/Content Editor/Context Menues/Default/Copy Url/{9FDF02C3-D6C1-453F-B9DF-9FC52DF01C72}/invariant/0</x-item>
@@ -37,55 +54,8 @@
       </Converter>
       <Include />
       <Exclude />
-      <Name>Core Database Items</Name>
+      <Name>Core - Command</Name>
     </xitems>
-    <xfiles>
-      <Entries>
-        <x-item>/App_Config/Include/ItemUrlHelper.config</x-item>
-      </Entries>
-      <Converter>
-        <FileToEntryConverter>
-          <Root>/</Root>
-          <Transforms>
-            <InstallerConfigurationTransform>
-              <Options>
-                <BehaviourOptions>
-                  <ItemMode>Undefined</ItemMode>
-                  <ItemMergeMode>Undefined</ItemMergeMode>
-                </BehaviourOptions>
-              </Options>
-            </InstallerConfigurationTransform>
-          </Transforms>
-        </FileToEntryConverter>
-      </Converter>
-      <Include />
-      <Exclude />
-      <Name>Files</Name>
-    </xfiles>
-    <xfiles>
-      <Entries>
-        <x-item>/bin/Sitecore.SharedSource.Commons.dll</x-item>
-        <x-item>/bin/Sitecore.SharedSource.ItemUrlHelper.dll</x-item>
-      </Entries>
-      <Converter>
-        <FileToEntryConverter>
-          <Root>/</Root>
-          <Transforms>
-            <InstallerConfigurationTransform>
-              <Options>
-                <BehaviourOptions>
-                  <ItemMode>Undefined</ItemMode>
-                  <ItemMergeMode>Undefined</ItemMergeMode>
-                </BehaviourOptions>
-              </Options>
-            </InstallerConfigurationTransform>
-          </Transforms>
-        </FileToEntryConverter>
-      </Converter>
-      <Include />
-      <Exclude />
-      <Name>Bin Directory</Name>
-    </xfiles>
   </Sources>
   <Converter>
     <TrivialConverter>

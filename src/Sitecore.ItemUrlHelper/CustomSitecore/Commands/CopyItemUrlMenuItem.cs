@@ -15,7 +15,7 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 	[Serializable]
 	public class CopyItemUrlMenuItem : Command
 	{
-		public static string DeviceTemplate = "{B6F7EEB4-E8D7-476F-8936-5ACE6A76F20B}";
+		public static string DeviceTemplate = TemplateIDs.Device.ToString();
 
 		public Item CurrentItem { get; set; }
 
