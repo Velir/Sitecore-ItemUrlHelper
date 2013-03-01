@@ -43,9 +43,13 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 			}
 
 			string host = siteUrlItem.Url;
-			string siteUrl = LinkManager.GetItemUrl(UrlContext.Item, options);
+			UrlContext.Url = LinkManager.GetItemUrl(UrlContext.Item, options);
 
-			UrlContext.Url = string.Format("{0}{1}", host, siteUrl);
+			//verify we are not adding the host to a url that already contains a host
+			if (!UrlContext.Url.ToLower().Contains(host.ToLower()))
+			{
+				UrlContext.Url = string.Format("{0}{1}", host, UrlContext.Url);
+			}
 
 			//get device item
 			if (UrlContext.Device != null && !string.IsNullOrEmpty(UrlContext.Device.QueryString))
