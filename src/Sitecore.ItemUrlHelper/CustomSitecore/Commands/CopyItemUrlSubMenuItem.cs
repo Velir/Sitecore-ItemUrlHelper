@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Xml;
 using Sitecore.Configuration;
@@ -26,46 +27,64 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 				return;
 			}
 
-			string url = GetUrl(context);
-			SendResponse(url);
+			UrlContext urlContext = GetContext(context);
+			SendResponse(urlContext);
 		}
 
 		/// <summary>
 		/// Sends reponse to client
 		/// </summary>
 		/// <param name="url"></param>
-		private void SendResponse(string url)
+		private void SendResponse(UrlContext urlContext)
 		{
 			//close context menu
 			Sitecore.Context.ClientPage.ClientResponse.ClosePopups(true);
 
-			string clientResponseText = "The Url for the selected item is: " + url;
-
-			//if we are on IE we can copy to the clipboard
-			if (UIUtil.IsIE())
+			//check for messages
+			if (urlContext.Messages.Count > 0)
 			{
-				//set clipboard
-				Sitecore.Context.ClientPage.ClientResponse.Eval(string.Format("window.clipboardData.setData('Text','{0}')", url));
-				clientResponseText = "The Url for the selected item has been copied: " + url;
-			}
+				string messages = string.Empty;
+				foreach(string s in urlContext.Messages)
+				{
+					string message = s.Trim();
+					if(!s.Contains("."))
+					{
+						message += s;
+					}
 
-			//send user message
-			if (string.IsNullOrEmpty(url))
+					messages += message + " ";
+				}
+
+				Sitecore.Context.ClientPage.ClientResponse.Alert(messages.Trim());
+			}
+			//verify there is a url
+			else if (string.IsNullOrEmpty(urlContext.Url))
 			{
 				Sitecore.Context.ClientPage.ClientResponse.Alert("The selected item does not have presentation settings.");
 			}
+			//return url to front end
 			else
 			{
+				string clientResponseText = "The Url for the selected item is: " + urlContext.Url;
+
+				//if we are on IE we can copy to the clipboard
+				if (UIUtil.IsIE())
+				{
+					//set clipboard
+					Sitecore.Context.ClientPage.ClientResponse.Eval(string.Format("window.clipboardData.setData('Text','{0}')", urlContext.Url));
+					clientResponseText = "The Url for the selected item has been copied: " + urlContext.Url;
+				}
+
 				Sitecore.Context.ClientPage.ClientResponse.Alert(clientResponseText);
 			}
 		}
 
 		/// <summary>
-		/// Retrieves the Url for the item in context
+		/// Retrieves the UrlContext for the item in context
 		/// </summary>
 		/// <param name="context"></param>
 		/// <returns></returns>
-		private string GetUrl(CommandContext context)
+		private UrlContext GetContext(CommandContext context)
 		{
 			//start retrieval process
 			UrlContext urlContext = new UrlContext();
@@ -88,7 +107,7 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 				urlContext = processUrl.UrlContext;
 			}
 
-			return urlContext.Url;
+			return urlContext;
 		}
 	}
 }

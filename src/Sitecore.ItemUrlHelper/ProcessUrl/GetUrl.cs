@@ -39,11 +39,17 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 			SiteUrl siteUrlItem = SiteUrl.GetSiteInfo_ByName(site.Name);
 			if(siteUrlItem == null)
 			{
+				UrlContext.Messages.Add("Unable to find mapping of site to url.");
 				return;
 			}
 
 			string host = siteUrlItem.Url;
 			UrlContext.Url = LinkManager.GetItemUrl(UrlContext.Item, options);
+			if(string.IsNullOrEmpty(UrlContext.Url))
+			{
+				UrlContext.Messages.Add("No Url was returned from Sitecore.");
+				return;
+			}
 
 			//verify we are not adding the host to a url that already contains a host
 			if (!UrlContext.Url.ToLower().Contains(host.ToLower()))
