@@ -38,16 +38,41 @@ namespace Sitecore.SharedSource.ItemUrlHelper.Model
 		/// <returns></returns>
 		public static SiteUrl GetSiteInfo_ByUrl(string url)
 		{
-			Uri uri = new Uri(url);
-			url = uri.Host.ToLower();
-
-			SiteUrl item = SiteUrlItems.Where(x => x.Url.ToLower().Contains(url)).FirstOrDefault();
-			if(item != null)
+			if(!IsValidUri(url))
 			{
-				return item;
+				return null;
+			}
+			
+			try
+			{
+				Uri uri = new Uri(url);
+				url = uri.Host.ToLower();
+
+				SiteUrl item = SiteUrlItems.Where(x => x.Url.ToLower().Contains(url)).FirstOrDefault();
+				if (item != null)
+				{
+					return item;
+				}
+			}
+			catch (Exception e)
+			{
+				Sitecore.Diagnostics.Log.Error("Item Url Helper - Could not convert to Uri:" + url, e);
 			}
 
 			return null;
+		}
+
+		private static bool IsValidUri(string uri)
+		{
+			try
+			{
+				new Uri(uri);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		private static List<SiteUrl> SiteUrlItems
