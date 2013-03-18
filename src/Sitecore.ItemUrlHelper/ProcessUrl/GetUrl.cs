@@ -26,7 +26,7 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 			SiteInfo site = ResolveSite(UrlContext.Item);
 			SiteContext siteContext = new SiteContext(site);
 
-			UrlOptions options = new UrlOptions();
+			UrlOptions options = LinkManager.GetDefaultUrlOptions();
 			options.Site = siteContext;
 			options.LanguageEmbedding = LanguageEmbedding.Never;
 			options.AlwaysIncludeServerUrl = false;
