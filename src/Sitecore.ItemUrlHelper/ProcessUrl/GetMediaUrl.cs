@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sitecore.Resources.Media;
+using Sitecore.SharedSource.ItemUrlHelper.Model;
 
 namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 {
@@ -31,7 +32,16 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 				mediaUrl = "/" + mediaUrl;
 			}
 
-			UrlContext.Url = mediaUrl;
+		    if (!(mediaUrl.StartsWith("http://") || mediaUrl.StartsWith("www.")))
+		    {
+		        SiteUrl defaultSite = SiteUrl.GetDefaultSite();
+		        if (defaultSite != null && !string.IsNullOrEmpty(defaultSite.Url))
+		        {
+		            mediaUrl = defaultSite.Url + mediaUrl;
+		        }
+		    }
+			
+            UrlContext.Url = mediaUrl;
 		}
 	}
 }

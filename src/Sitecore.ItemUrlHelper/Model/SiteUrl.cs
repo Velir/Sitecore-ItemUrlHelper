@@ -13,6 +13,22 @@ namespace Sitecore.SharedSource.ItemUrlHelper.Model
 	{
 		public string Name { get; set; }
 		public string Url { get; set; }
+        public bool DefaultSite { get; set; }
+
+        /// <summary>
+        /// If a default site is specified in the configuration file, it is returned
+        /// </summary>
+        /// <returns></returns>
+        public static SiteUrl GetDefaultSite()
+        {
+            SiteUrl defaultSite = SiteUrlItems.FirstOrDefault(x => x.DefaultSite);
+            if(defaultSite == null)
+            {
+                return SiteUrlItems.FirstOrDefault();
+            }
+
+            return defaultSite;
+        }
 
 		/// <summary>
 		/// The site's url is returned through the mapping in the configuration file
@@ -21,14 +37,23 @@ namespace Sitecore.SharedSource.ItemUrlHelper.Model
 		/// <returns></returns>
 		public static SiteUrl GetSiteInfo_ByName(string name)
 		{
-			name = name.ToLower();
-			SiteUrl item = SiteUrlItems.Where(x => x.Name.ToLower() == name).FirstOrDefault();
-			if (item != null)
-			{
-				return item;
-			}
+		    try
+		    {
+		        name = name.ToLower();
+		        SiteUrl item = SiteUrlItems.Where(x => x.Name.ToLower() == name).FirstOrDefault();
+		        if (item != null)
+		        {
+		            return item;
+		        }
 
-			return null;
+		        return GetDefaultSite();
+		    }
+		    catch (Exception e)
+		    {
+                Sitecore.Diagnostics.Log.Error("Item Url Helper - Could not get Site by name:" + name, e);
+		    }
+
+		    return null;
 		}
 
 		/// <summary>
@@ -53,6 +78,8 @@ namespace Sitecore.SharedSource.ItemUrlHelper.Model
 				{
 					return item;
 				}
+
+			    return GetDefaultSite();
 			}
 			catch (Exception e)
 			{
@@ -99,10 +126,16 @@ namespace Sitecore.SharedSource.ItemUrlHelper.Model
 						SiteUrl siteInfo = new SiteUrl();
 						siteInfo.Name = XmlUtil.GetAttribute("name", node);
 						siteInfo.Url = XmlUtil.GetAttribute("url", node);
+					    if(!string.IsNullOrEmpty(XmlUtil.GetAttribute("default", node)))
+					    {
+					        bool defaultSite;
+					        bool.TryParse(XmlUtil.GetAttribute("default", node), out defaultSite);
+					        siteInfo.DefaultSite = defaultSite;
+					    }
 
-						items.Add(siteInfo);
+					    items.Add(siteInfo);
 					}
-
+                    
 					return items;
 				}
 				catch (Exception e)
