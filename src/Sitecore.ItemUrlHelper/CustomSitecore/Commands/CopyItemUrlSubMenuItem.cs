@@ -65,7 +65,7 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 			//return url to front end
 			else
 			{
-				string clientResponseText = "The Url for the selected item is: " + urlContext.Url;
+				string clientResponseText = "The Url for the selected item is DONKEY: " + urlContext.Url;
 
 				//if we are on IE we can copy to the clipboard
 				if (UIUtil.IsIE())
@@ -73,6 +73,11 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 					//set clipboard
 					Sitecore.Context.ClientPage.ClientResponse.Eval(string.Format("window.clipboardData.setData('Text','{0}')", urlContext.Url));
 					clientResponseText = "The Url for the selected item has been copied: " + urlContext.Url;
+				}
+				else if (UIUtil.IsFirefox() || UIUtil.IsWebkit())
+				{
+					Sitecore.Context.ClientPage.ClientResponse.Eval(string.Format("window.prompt('Copy to clipboard: Ctrl+C, Enter','{0}')", urlContext.Url));
+					return;
 				}
 
 				Sitecore.Context.ClientPage.ClientResponse.Alert(clientResponseText);
