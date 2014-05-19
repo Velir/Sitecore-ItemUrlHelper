@@ -9,7 +9,6 @@ using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Links;
 using Sitecore.SharedSource.ItemUrlHelper.Model;
-using Sitecore.Shell.Framework.Commands.TemplateBuilder;
 using Sitecore.Sites;
 using Sitecore.Web;
 using Sitecore.Xml;
@@ -52,16 +51,14 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 				return;
 			}
 
-			Uri uriContext = new Uri(UrlContext.Url);
-
-			//remove the protocol from the url (if any)
-			UrlContext.Url = UrlContext.Url.ToLower().Replace("http://", "");
-			//remove the host from the url (if any)
-			UrlContext.Url = UrlContext.Url.Replace(uriContext.Host.ToLower(),"");
 			//remove the 443 port for secured Sitecore instance (if any)
 			UrlContext.Url = UrlContext.Url.Replace(":443", "");
-			//add the host (defined in the ItemUrlHelper.config) to the url
-			UrlContext.Url = string.Format("{0}{1}", host, UrlContext.Url);
+
+			//verify we are not adding the host to a url that already contains a host
+			if (!UrlContext.Url.ToLower().Contains(host.ToLower()))
+			{
+				UrlContext.Url = string.Format("{0}{1}", host, UrlContext.Url);
+			}
 
 			//get device item
 			if (UrlContext.Device != null && !string.IsNullOrEmpty(UrlContext.Device.QueryString))
