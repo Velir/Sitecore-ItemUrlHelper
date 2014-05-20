@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Web;
 using System.Xml;
 using Sitecore.Configuration;
 using Sitecore.Data;
 using Sitecore.Data.Items;
+using Sitecore.Diagnostics;
 using Sitecore.Links;
 using Sitecore.SharedSource.ItemUrlHelper.Model;
 using Sitecore.Sites;
@@ -49,6 +51,13 @@ namespace Sitecore.SharedSource.ItemUrlHelper.ProcessUrl
 			{
 				UrlContext.Messages.Add("No Url was returned from Sitecore.");
 				return;
+			}
+
+			if (UrlContext.Url.Contains("http"))
+			{
+				Uri uriContext = new Uri(UrlContext.Url);
+				// get only the item path
+				UrlContext.Url = uriContext.AbsolutePath;
 			}
 
 			//remove the 443 port for secured Sitecore instance (if any)
