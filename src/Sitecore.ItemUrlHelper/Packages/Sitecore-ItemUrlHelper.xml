@@ -2,7 +2,7 @@
   <Metadata>
     <metadata>
       <PackageName>Sitecore-ItemUrlHelper</PackageName>
-      <Author>Tim Braga</Author>
+      <Author>Peter Tomaselli</Author>
       <Version />
       <Revision />
       <License />
@@ -18,7 +18,6 @@
   <Sources>
     <xfiles>
       <Entries>
-        <x-item>/App_Config/Include/ItemUrlHelper.config</x-item>
         <x-item>/bin/Sitecore.SharedSource.Commons.dll</x-item>
         <x-item>/bin/Sitecore.SharedSource.Contextualizer.dll</x-item>
         <x-item>/bin/Sitecore.SharedSource.ItemUrlHelper.dll</x-item>
@@ -26,20 +25,6 @@
       <Converter>
         <FileToEntryConverter>
           <Root>/</Root>
-          <Transforms />
-        </FileToEntryConverter>
-      </Converter>
-      <Include />
-      <Exclude />
-      <Name>Files</Name>
-    </xfiles>
-    <xitems>
-      <Entries>
-        <x-item>/core/sitecore/content/Applications/Content Editor/Context Menues/Default/Copy Url/{9FDF02C3-D6C1-453F-B9DF-9FC52DF01C72}/invariant/0</x-item>
-      </Entries>
-      <SkipVersions>False</SkipVersions>
-      <Converter>
-        <ItemToEntryConverter>
           <Transforms>
             <InstallerConfigurationTransform>
               <Options>
@@ -50,12 +35,40 @@
               </Options>
             </InstallerConfigurationTransform>
           </Transforms>
+        </FileToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>bin</Name>
+    </xfiles>
+    <xitems>
+      <Entries>
+        <x-item>/core/sitecore/content/Applications/Content Editor/Context Menues/Default/Copy Url/{9FDF02C3-D6C1-453F-B9DF-9FC52DF01C72}/invariant/0</x-item>
+      </Entries>
+      <SkipVersions>False</SkipVersions>
+      <Converter>
+        <ItemToEntryConverter>
+          <Transforms />
         </ItemToEntryConverter>
       </Converter>
       <Include />
       <Exclude />
-      <Name>Core - Command</Name>
+      <Name>core</Name>
     </xitems>
+    <xfiles>
+      <Entries>
+        <x-item>/App_Config/Include/ItemUrlHelper.config</x-item>
+      </Entries>
+      <Converter>
+        <FileToEntryConverter>
+          <Root>/</Root>
+          <Transforms />
+        </FileToEntryConverter>
+      </Converter>
+      <Include />
+      <Exclude />
+      <Name>includes</Name>
+    </xfiles>
   </Sources>
   <Converter>
     <TrivialConverter>
