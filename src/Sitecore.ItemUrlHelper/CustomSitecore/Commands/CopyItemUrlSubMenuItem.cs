@@ -65,7 +65,7 @@ namespace Sitecore.SharedSource.ItemUrlHelper.CustomSitecore.Commands
 			//return url to front end
 			else
 			{
-				string clientResponseText = "The Url for the selected item is DONKEY: " + urlContext.Url;
+				string clientResponseText = "The Url for the selected item is: " + urlContext.Url;
 
 				//if we are on IE we can copy to the clipboard
 				if (UIUtil.IsIE())
